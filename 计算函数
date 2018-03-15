@@ -1,0 +1,57 @@
+/**
+ * 区域重叠的判断函数,判断两个区域是否重叠
+ * @param {Array} segment 线段坐标点: [[x1,y1], [x2,y2]]
+ * @param {Array} polygon 多边形坐标点: [[x1,y1],[x2,y2],[x3,y3],[x4,y4]...]
+ * @return {Boolean} 两多边形重叠为true,否则为false
+ * */
+/* eslint-disable */
+function judgePolygonsOverlap(polyA, polyB) {
+    // 线段是否相交
+    function judgeSegmentsIntersectant(segA, segB) {
+      const abc =
+        (segA[0][0] - segB[0][0]) * (segA[1][1] - segB[0][1]) -
+        (segA[0][1] - segB[0][1]) * (segA[1][0] - segB[0][0]);
+      const abd =
+        (segA[0][0] - segB[1][0]) * (segA[1][1] - segB[1][1]) -
+        (segA[0][1] - segB[1][1]) * (segA[1][0] - segB[1][0]);
+      if (abc * abd >= 0) {
+        return false;
+      }
+      const cda =
+        (segB[0][0] - segA[0][0]) * (segB[1][1] - segA[0][1]) -
+        (segB[0][1] - segA[0][1]) * (segB[1][0] - segA[0][0]);
+      const cdb = cda + abc - abd;
+      return !(cda * cdb >= 0);
+    }
+    // 判断两多边形边界是否相交
+    function judgePolygonsIntersectant(polyA, polyB) {
+      for (let i = 0, l = polyA.length; i < l; i++) {
+        for (let j = 0, k = polyB.length; j < k; j++) {
+          const segA = [polyA[i], polyA[i === l - 1 ? 0 : i + 1]];
+          const segB = [polyB[j], polyB[j === k - 1 ? 0 : j + 1]];
+          if (judgeSegmentsIntersectant(segA, segB)) {
+            return true;
+          }
+        }
+      }
+      return false;
+    }
+    // 判断两多边形是否存在点与区域的包含关系(多边形A的点在多边形B的区域内或多边形B的点在多边形A的区域内)
+    function judgePointContainByPolygon(polyA, polyB) {
+      for (let i = 0; i < polyA.length; i++) {
+        if (hdmap.utils.judgePointInsidePolygon(polyA[i], polyB) !== 'out') {
+          return true;
+        }
+      }
+      for (let i = 0; i < polyB.length; i++) {
+        if (hdmap.utils.judgePointInsidePolygon(polyB[i], polyA) !== 'out') {
+          return true;
+        }
+      }
+      return false;
+    }
+    return (
+      judgePolygonsIntersectant(polyA, polyB) ||
+      judgePointContainByPolygon(polyA, polyB)
+    );
+  }
