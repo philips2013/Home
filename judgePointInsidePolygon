@@ -1,0 +1,39 @@
+function judgePointInsidePolygon (point, poly) {
+  function rayMethod (point, poly) {
+    for (var f = false, i = 0, l = poly.length, j = l - 1; i < l; j = i, i++) {
+      // 点与多边形顶点重合
+      if (
+        (poly[i][0] === point[0] && poly[i][1] === point[1]) ||
+        (poly[j][0] === point[0] && poly[j][1] === point[1])
+      ) {
+        return 'on'
+      }
+      // 判断线段两端点是否在射线两侧
+      if (
+        (poly[i][1] < point[1] && poly[j][1] >= point[1]) ||
+        (poly[i][1] >= point[1] && poly[j][1] < point[1])
+      ) {
+        // 线段上与射线 Y 坐标相同的点的 X 坐标
+        var x =
+          poly[i][0] +
+          (point[1] - poly[i][1]) *
+            (poly[j][0] - poly[i][0]) /
+            (poly[j][1] - poly[i][1])
+        // 点在多边形的边上
+        if (x === point[0]) {
+          return 'on'
+        }
+        // 射线穿过多边形的边界
+        if (x > point[0]) {
+          f = !f
+        }
+      }
+    }
+    // 射线穿过多边形边界的次数为奇数时点在多边形内
+    return f ? 'in' : 'out'
+  }
+  // console.log(poly)
+  var result = rayMethod(point, poly)
+  // console.log(result)
+  return result
+}
