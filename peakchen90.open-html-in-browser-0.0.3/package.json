@@ -1,0 +1,74 @@
+{
+	"name": "open-html-in-browser",
+	"displayName": "Open HTML in Default Browser",
+	"description": "Open HTML in Default Browser",
+	"version": "0.0.3",
+	"publisher": "peakchen90",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/peakchen90/vscode-open-in-default-browser.git"
+	},
+	"bugs": {
+		"url": "https://github.com/peakchen90/vscode-open-in-default-browser/issues"
+	},
+	"engines": {
+		"vscode": "^1.10.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"keywords": [
+		"open",
+		"html",
+		"default",
+		"browser"
+	],
+	"icon": "icon.jpg",
+	"activationEvents": [
+		"onCommand:peakchen90.openInBrowser"
+	],
+	"main": "./extension",
+	"contributes": {
+		"commands": [
+			{
+				"command": "peakchen90.openInBrowser",
+				"title": "在浏览器中打开"
+			}
+		],
+		"menus": {
+			"editor/context": [
+				{
+					"when": "editorLangId == html",
+					"command": "peakchen90.openInBrowser",
+					"group": "1_modification"
+				}
+			],
+			"explorer/context": [
+				{
+					"when": "resourceLangId == html",
+					"command": "peakchen90.openInBrowser",
+					"group": "1_modification"
+				}
+			]
+		}
+	},
+	"scripts": {
+		"pub": "vsce publish patch"
+	},
+	"devDependencies": {
+		"typescript": "^2.0.3",
+		"vscode": "^1.0.0",
+		"mocha": "^2.3.3",
+		"eslint": "^3.6.0",
+		"@types/node": "^6.0.40",
+		"@types/mocha": "^2.2.32"
+	},
+	"dependencies": {
+		"opn": "^4.0.2"
+	},
+	"__metadata": {
+		"id": "e552c70b-32af-4b0b-8f48-5e7e01e688b0",
+		"publisherId": "8d0479cc-c5b2-4c0f-88c2-d38452c8b3df",
+		"publisherDisplayName": "peakchen90"
+	}
+}
